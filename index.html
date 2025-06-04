@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamers Arsenal</title>
+
+    <!--adding meta keywords and description -->
+    <meta name="keywords"
+        content="gaming tools, game accessories, gaming gear, gaming equipment, gaming setup, game controller, gaming mouse, gaming keyboard, gaming headset, gaming software, eSports tools, gaming community, gaming chair, VR gaming tools, game streaming equipment, console gaming, PC gaming, mobile gaming, gaming tips, game reviews, gaming news">
+    <meta name="description"
+        content="Collect and discover the ultimate gaming tools and accessories to enhance your gaming experience. From high-performance controllers and mice to immersive headsets and VR gaming equipment, we have everything you need for console, PC, and mobile gaming. Join our gaming community for tips and reviews to stay ahead in the game!">
+
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMhZj7z9qvhs8kcJ6D6t3h7jsKK4Gk16+/D57g" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./popup/popup.css" />
+    <link rel ="stylesheet" href="./Loader/Loader.css"/>
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="loader" id="loader"></div>
+    <div class="main-content">
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+
+    <div class="container">
+
+        <div class="navbar">
+            <div class="logo-outer">
+                <a href="/"> <img src="images/logo.png" class="logo" alt="Logo"></a>
+                <a href="/"><span class="website-name">Gamers Arsenal</span></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./aboutus.html">About Us</a></li>
+                    <li><a href="#controller">Game Controllers</a></li>
+                    <li><a href="#vrsection">VR Accessories</a></li>
+                    <li><a href="#keyboard">Gaming Keyboard</a></li>
+                    <li><a href="#others">Others</a></li>
+
+                    <li class="login"><a href="login/login.html">Login</a></li>
+                    <li><label class="switch">
+                            <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                            <span class="slider"></span>
+                        </label></li>
+                    <!-- Inside the navbar ul -->
+                    <a href="#" class="cart-button">
+                        <img src="images/cart.png" alt="Cart Icon">
+                        <span id="cart-count">0</span>
+                    </a>
+                </ul>
+
+                <!-- Hamburger Menu Icon -->
+                <img src="images/menu.png" class="menu-icon" onclick="toggleMenu()">
+            </nav>
+        </div>
+        </nav>
+
+        <nav>
+            <ul id="menuList">
+                <li><a href="#controller">Game Controllers</a></li>
+                <li><a href="#vrsection">VR Accessories</a></li>
+                <li><a href="#keyboard">Gaming Keyboard</a></li>
+                <li><a href="#others">Others</a></li>
+                <li class="login"><a href="login/login.html">Login</a></li>
+                <!-- Theme Toggle -->
+                <li><label class="switch">
+                        <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                        <span class="slider"></span>
+                    </label></li>
+            </ul>
+            <!-- Hamburger Menu Icon -->
+            <img src="images/menu.png" class="menu-icon" onclick="toggleMenu()">
+        </nav>
+
+        <section class="hero">
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <!-- Search Bar (initially hidden) -->
+
+                <div class="searchbar-outer">
+                    <div class="search-bar hidden" id="searchBar">
+                        <input type="text" id="search-input" placeholder="Search..." />
+                        <button type="button" onclick="performSearch()"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <h1 data-aos="fade-down">Welcome to Gamers Arsenal</h1>
+                <p data-aos="fade-down">Your one-stop shop for all gaming accessories.</p>
+                <a href="#controller" class="cta-btn" data-aos="fade-down">Explore Products</a>
+            </div>
+        </section>
+
+        <!-- Pop-up for email registration  HTML Goes Here -->
+
+
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <div class="popup-left">
+                    <img src="images/popup.png" alt="Gaming Tools Image" loading="lazy">
+                </div>
+
+                <div class="popup-right">
+                    <a href="# " class="close1-btn"> <img src="images/logo.png" class="logo1" alt="Logo"></a>
+                    <h1>Unlock the Ultimate Gaming Experience!</h1>
+                    <h2 class="h2">Sign up for exclusive offers & updates</h2>
+                    <p class="pop_up">Join our community and get upto <strong class="bold">30% off</strong> on your first deal</p>
+                    <form id="emailForm">
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <button type="submit" class="signup-btn1">Get 30% Off Now</button>
+                    </form>
+                    <a href="#" class="no-thanks close1-btn">No thanks</a>
+                    <p class="terms">By signing up, you agree to our <a href="terms.html">Terms of Service</a> and <a
+                            href="PrivacyPolicy/PrivacyPolicy.html">Privacy Policy</a>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pop up HTML Ends here -->
+
+
+        <!-- PS4 Controller Section -->
+
+        <div class="row" id="controller">
+
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">PS4 V2 Dualshock 4</h2>
+                <h3>Wireless Controllers for PlayStation 4</h3>
+                <p>(Compatible/Generic)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;5500</span>
+                    <span class="discounted-price">&#8377;3999</span>
+                    <span class="discount">30% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★☆</span>
+                    <p>(2252 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.1</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/controller1.png" class="controller" alt="Controller" loading="lazy">
+                <div class="color-box"></div>
+            </div>
+        </div>
+
+        <!-- Xbox Controller Section -->
+        <div class="row">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Xbox Wireless Controller</h2>
+                <h3>Controllers for Xbox One and Series X</h3>
+                <p>(Official)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;4500</span>
+                    <span class="discounted-price">&#8377;3499</span>
+                    <span class="discount">22% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <p>(1189 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.8</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/newcontroller3.png" class="controller" alt="Controller" loading="lazy">
+                <!-- replaced old blurry image with enhanced image -->
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- Nintendo Switch Controller Section -->
+        <div class="row">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Nintendo Switch Pro Controller</h2>
+                <h3>Wireless Controllers for Nintendo Switch</h3>
+                <p>(Official)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;6000</span>
+                    <span class="discounted-price">&#8377;4999</span>
+                    <span class="discount">17% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★☆</span>
+                    <p>(3145 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.2</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/controller2.png" class="controller"
+                    alt="Controller" loading="lazy"><!--changed the image, as it was interchanged with the xbox controller image-->
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- VR Headset Section -->
+        <div class="row" id="vrsection">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Meta Quest Pro</h2>
+                <h3>VR Headset from Meta</h3>
+                <p>(Official)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;40000</span>
+                    <span class="discounted-price">&#8377;35200</span>
+                    <span class="discount">12% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★☆</span>
+                    <p>(871 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.2</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/metaquest.jpg" class="controller"
+                    alt="Controller" loading="lazy"><!--changed the image, as it was interchanged with the xbox controller image-->
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- VR Headset Section 2 -->
+        <div class="row">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Apple Vision Pro</h2>
+                <h3>VR Headset from Apple</h3>
+                <p>(Official)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;293999</span>
+                    <span class="discounted-price">&#8377;264599</span>
+                    <span class="discount">10% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <p>(235 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.8</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/visionpro.png" class="controller"
+                    alt="Controller" loading="lazy"><!--changed the image, as it was interchanged with the xbox controller image-->
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- Gaming Mouse Section -->
+        <div class="row" id="others">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Logitech G502 Hero</h2>
+                <h3>High Performance Gaming Mouse</h3>
+                <p>(Wired)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;4000</span>
+                    <span class="discounted-price">&#8377;2999</span>
+                    <span class="discount">25% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <p>(9256 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">5.0</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/mouse.png" class="controller" alt="Gaming Mouse" loading="lazy">
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- Gaming Keyboard Section -->
+        <div class="row" id="keyboard">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Razer BlackWidow</h2>
+                <h3>Mechanical Gaming Keyboard</h3>
+                <p>(Wired)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;7000</span>
+                    <span class="discounted-price">&#8377;5499</span>
+                    <span class="discount">21% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★☆</span>
+                    <p>(6184 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.5</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/keyboard.png" class="controller" alt="Gaming Keyboard" loading="lazy">
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- Gaming Headset Section -->
+        <div class="row">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">SteelSeries Arctis 7</h2>
+                <h3>Wireless Gaming Headset</h3>
+                <p>(Surround Sound)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;12000</span>
+                    <span class="discounted-price">&#8377;8999</span>
+                    <span class="discount">25% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <p>(8452 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.7</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/headset.png" class="controller" alt="Gaming Headset" loading="lazy">
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+
+        <!-- Gaming Chair Section -->
+        <div class="row">
+            <div class="col-1" data-aos="fade-right">
+                <h2 class="card-heading">Secretlab Omega</h2>
+                <h3>Ergonomic Gaming Chair</h3>
+                <p>(Adjustable)</p>
+                <div class="price">
+                    <span class="original-price">&#8377;30000</span>
+                    <span class="discounted-price">&#8377;24999</span>
+                    <span class="discount">17% off</span>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <p>(3564 reviews)</p>
+                </div>
+                <div class="overall-rating">
+                    Overall Rating<span class="rating-value">4.8</span><span class="star">★</span>
+                </div>
+
+                <div class="btn-section">
+                    <button type="button" id="buy-btn">Buy Now<img src="images/arrow.png" alt="Arrow"></button>
+                    <button type="button" id="cart-btn">Add to Cart<img src="images/add.png" alt="Cart"></button>
+                </div>
+            </div>
+            <div class="col-2" data-aos="fade-left">
+                <img src="images/newchair.png" class="controller" alt="Gaming Chair" loading="lazy">
+                <div class="color-box"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="most-loved-products">
+        <h2> Most Loved Products</h2>
+        <div class="product-slider">
+          <div class="product-card">
+            <img src="images/gaming-chair.jpg" alt="Gaming Chair">
+            <h3>Gaming Chair</h3>
+          </div>
+          <div class="product-card">

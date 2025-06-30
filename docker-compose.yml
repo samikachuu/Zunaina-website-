@@ -1,41 +1,43 @@
+version: '3.8'
+
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile  
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "80:80"  
+      - "80:80"
     depends_on:
-      - backend  
+      - backend
     networks:
-      - app-network
+      - akiya-network
 
   backend:
     build:
-      context: .
-      dockerfile: backend/Dockerfile 
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"  
-    networks:
-      - app-network
+      - "3000:3000"
     environment:
-      - NODE_ENV=production  
-      - MONGODB_URI=mongodb://mongo:27017/mydatabase  
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongo:27017/akiyadb
     depends_on:
-      - mongo  
+      - mongo
+    networks:
+      - akiya-network
 
   mongo:
-    image: mongo:latest  
+    image: mongo:latest
     ports:
-      - "27017:27017" 
+      - "27017:27017"
     volumes:
-      - mongo_data:/data/db  
+      - mongo_data:/data/db
     networks:
-      - app-network
+      - akiya-network
 
 networks:
-  app-network:
+  akiya-network:
     driver: bridge
 
 volumes:
-  mongo_data:  
+  mongo_data:

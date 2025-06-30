@@ -1,4 +1,6 @@
-var menuList = document.getElementById("menuList");
+<script>
+// --- Responsive Nav Menu ---
+const menuList = document.getElementById("menuList");
 menuList.style.height = "0px";
 menuList.style.paddingTop = "0px";
 menuList.style.display = "block";
@@ -6,529 +8,129 @@ menuList.style.position = "fixed";
 menuList.style.borderRadius = "20px";
 
 function toggleMenu() {
-    if (menuList.style.height == "0px") {
-        menuList.style.height = "auto";
-        menuList.style.paddingTop = "20px";
-    } else {
-        menuList.style.height = "0px";
-        menuList.style.paddingTop = "0px";
-    }
+  if (menuList.style.height === "0px") {
+    menuList.style.height = "auto";
+    menuList.style.paddingTop = "20px";
+  } else {
+    menuList.style.height = "0px";
+    menuList.style.paddingTop = "0px";
+  }
 }
 
-window.onscroll = function() {
-    updateProgressBar();
-  };
+// --- Scroll Progress Bar ---
+window.onscroll = updateProgressBar;
 function updateProgressBar() {
-  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  var scrollHeight =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
-  var scrollPercent = (scrollTop / scrollHeight) * 100;
-  document.getElementById("progressBar").style.width = scrollPercent + "%";
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const percent = (scrollTop / scrollHeight) * 100;
+  document.getElementById("progressBar").style.width = percent + "%";
 }
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Website loaded successfully!");
+
+// --- Scroll-to-Top Button with Circular Progress ---
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('scrollToTopBtn');
+  const circle = btn.querySelector('circle');
+  const radius = circle.r.baseVal.value;
+  const circumference = 2 * Math.PI * radius;
+  circle.style.strokeDasharray = `${circumference} ${circumference}`;
+
+  function updateCircle() {
+    const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (document.documentElement.scrollTop / scrollTotal) * 100;
+    const offset = circumference - (scrolled / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+    btn.classList.toggle('show', window.scrollY > 300);
+  }
+
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', updateCircle);
+  updateCircle(); // initial
 });
 
-// Show or hide the scroll-top button based on scroll position
-window.addEventListener('scroll', function() {
-  const scrollTopButton = document.querySelector('.scroll-top');
-  if (window.pageYOffset > 300) {
-      scrollTopButton.style.display = 'block';
-  } else {
-      scrollTopButton.style.display = 'none';
-  }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-  const progressRing = scrollToTopBtn.querySelector('circle');
-  const rootElement = document.documentElement;
-
-  const radius = progressRing.r.baseVal.value;
-  const circumference = radius * 2 * Math.PI;
-
-  progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
-  progressRing.style.strokeDashoffset = circumference;
-
-  function setProgress(percent) {
-      const offset = circumference - percent / 100 * circumference;
-      progressRing.style.strokeDashoffset = offset;
-  }
-
-  function handleScroll() {
-      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
-      const scrolled = (rootElement.scrollTop / scrollTotal) * 100;
-
-      // Show or hide the scroll-to-top button based on scroll position
-      if (window.pageYOffset > 300) {
-          scrollToTopBtn.classList.add('show');
-      } else {
-          scrollToTopBtn.classList.remove('show');
-      }
-
-      // Update progress circle
-      requestAnimationFrame(() => {
-          setProgress(scrolled);
-      });
-  }
-
-  function scrollToTop() {
-      rootElement.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-      });
-  }
-
-  scrollToTopBtn.addEventListener('click', scrollToTop);
-  window.addEventListener('scroll', handleScroll);
-
-  // Initial check in case the page is already scrolled on load
-  handleScroll();
-});
-
+// --- Theme Toggle Dark/Light ---
 function toggleTheme() {
-  const body = document.body;
-  const themeToggle = document.getElementById("theme-toggle");
-  body.classList.toggle("dark-mode", themeToggle.checked);
-
-  // Save the user's preference in localStorage
-  if (themeToggle.checked) {
-    localStorage.setItem("theme", "dark");
-  } else {
-    localStorage.setItem("theme", "light");
-  }
+  const toggle = document.getElementById("theme-toggle");
+  document.body.classList.toggle("dark-mode", toggle.checked);
+  localStorage.setItem("theme", toggle.checked ? "dark" : "light");
 }
 
-// Load theme from localStorage on page load
 window.onload = () => {
-  const savedTheme = localStorage.getItem("theme");
-  const themeToggle = document.getElementById("theme-toggle");
-  if (savedTheme === "dark") {
+  const saved = localStorage.getItem("theme");
+  const toggle = document.getElementById("theme-toggle");
+  if (saved === "dark") {
     document.body.classList.add("dark-mode");
-    themeToggle.checked = true;
+    toggle.checked = true;
   }
 };
 
-//function to remove sidebar upon clicking close button
+// --- Sidebar Toggle ---
 function toggleSidebar() {
   const sidebar = document.querySelector('.social-sidebar');
-  const toggleArrow = document.querySelector('.toggle-arrow');
-  
-  // Check if the sidebar is currently visible
-  if (sidebar.style.display === "none") {
-      // If hidden, show the sidebar and hide the toggle arrow
-      sidebar.style.display = "block";
-      toggleArrow.style.display = "none";
-  } else {
-      // If visible, hide the sidebar and show the toggle arrow
-      sidebar.style.display = "none";
-      toggleArrow.style.display = "block";
-  }
+  const arrow = document.querySelector('.toggle-arrow');
+  const isHidden = sidebar.style.display === "none";
+  sidebar.style.display = isHidden ? "block" : "none";
+  arrow.style.display = isHidden ? "none" : "block";
 }
 
+// --- Listing Search (Filter Akiya Listings) ---
 function performSearch() {
-  let searchTerm = document.getElementById("search-input").value.toLowerCase();
-  console.log(searchTerm);
-  let cards = document.querySelectorAll(".row");
-
-  cards.forEach(function (card) {
-    let cardHeading = card
-      .querySelector(".card-heading")
-      .innerText.toLowerCase();
-
-    // Check if the search term is in the card heading or description
-    if (cardHeading.includes(searchTerm)) {
-      card.style.display = "block"; // Show the card
-    } else {
-      card.style.display = "none"; // Hide the card
-    }
+  const term = document.getElementById("search-input").value.trim().toLowerCase();
+  document.querySelectorAll(".listing").forEach(listing => {
+    const title = listing.querySelector(".listing-title").innerText.toLowerCase();
+    listing.style.display = title.includes(term) ? "block" : "none";
   });
 }
 
-async function SendEmail(e) {
-  e.preventDefault();
-  const Name = document.getElementById("name").value;
-  const Email = document.getElementById("email").value;
-  const Message = document.getElementById("message").value;
-
-  try {
-    const response = await fetch("http://localhost:5000/email/SendEmail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Name, Email, Message }),
-    });
-
-    if (response.ok) {
-      alert("Email sent successfully!");
-    } else {
-      alert("Error sending email");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred while sending the email.");
-  }
-}
-
-// faq
-document.querySelectorAll('.faq input[type="checkbox"]').forEach((checkbox) => {
-  checkbox.addEventListener('change', function () {
-    const answer = this.nextElementSibling.nextElementSibling; // FAQ answer div
-    if (this.checked) {
-      answer.style.maxHeight = answer.scrollHeight + 'px';
-    } else {
-      answer.style.maxHeight = '0px';
-    }
-  });
-});
-
-
-function testimonialJs() {
-  const swiper = new Swiper('.swiper', {
-    autoHeight: true,
-    loop: true,
-
-    // If we need pagination
-    pagination: {
-        el: '.swiper-pagination',
-    },
-
-    // Navigation arrows
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-
-
-});
-}
-testimonialJs();
-
-// Service Worker code for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      })
-      .catch((error) => {
-        console.log('ServiceWorker registration failed: ', error);
-      });
-  });
-}
-
-var menuList = document.getElementById("menuList");
-menuList.style.height = "0px";
-menuList.style.paddingTop = "0px";
-menuList.style.display = "block";
-menuList.style.position = "fixed";
-menuList.style.borderRadius = "20px";
-
-function toggleMenu() {
-    if (menuList.style.height == "0px") {
-        menuList.style.height = "auto";
-        menuList.style.paddingTop = "20px";
-    } else {
-        menuList.style.height = "0px";
-        menuList.style.paddingTop = "0px";
-    }
-}
-
-window.onscroll = function() {
-    updateProgressBar();
-  };
-function updateProgressBar() {
-  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-  var scrollHeight =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
-  var scrollPercent = (scrollTop / scrollHeight) * 100;
-  document.getElementById("progressBar").style.width = scrollPercent + "%";
-}
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Website loaded successfully!");
-});
-
-// Show or hide the scroll-top button based on scroll position
-window.addEventListener('scroll', function() {
-  const scrollTopButton = document.querySelector('.scroll-top');
-  if (window.pageYOffset > 300) {
-      scrollTopButton.style.display = 'block';
-  } else {
-      scrollTopButton.style.display = 'none';
-  }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-  const progressRing = scrollToTopBtn.querySelector('circle');
-  const rootElement = document.documentElement;
-
-  const radius = progressRing.r.baseVal.value;
-  const circumference = radius * 2 * Math.PI;
-
-  progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
-  progressRing.style.strokeDashoffset = circumference;
-
-  function setProgress(percent) {
-      const offset = circumference - percent / 100 * circumference;
-      progressRing.style.strokeDashoffset = offset;
-  }
-
-  function handleScroll() {
-      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
-      const scrolled = (rootElement.scrollTop / scrollTotal) * 100;
-
-      // Show or hide the scroll-to-top button based on scroll position
-      if (window.pageYOffset > 300) {
-          scrollToTopBtn.classList.add('show');
-      } else {
-          scrollToTopBtn.classList.remove('show');
-      }
-
-      // Update progress circle
-      requestAnimationFrame(() => {
-          setProgress(scrolled);
-      });
-  }
-
-  function scrollToTop() {
-      rootElement.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-      });
-  }
-
-  scrollToTopBtn.addEventListener('click', scrollToTop);
-  window.addEventListener('scroll', handleScroll);
-
-  // Initial check in case the page is already scrolled on load
-  handleScroll();
-});
-
-function toggleTheme() {
-  const body = document.body;
-  const themeToggle = document.getElementById("theme-toggle");
-  body.classList.toggle("dark-mode", themeToggle.checked);
-
-  // Save the user's preference in localStorage
-  if (themeToggle.checked) {
-    localStorage.setItem("theme", "dark");
-  } else {
-    localStorage.setItem("theme", "light");
-  }
-}
-
-// Load theme from localStorage on page load
-window.onload = () => {
-  const savedTheme = localStorage.getItem("theme");
-  const themeToggle = document.getElementById("theme-toggle");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    themeToggle.checked = true;
-  }
-};
-
-//function to remove sidebar upon clicking close button
-function toggleSidebar() {
-  const sidebar = document.querySelector('.social-sidebar');
-  const toggleArrow = document.querySelector('.toggle-arrow');
-  
-  // Check if the sidebar is currently visible
-  if (sidebar.style.display === "none") {
-      // If hidden, show the sidebar and hide the toggle arrow
-      sidebar.style.display = "block";
-      toggleArrow.style.display = "none";
-  } else {
-      // If visible, hide the sidebar and show the toggle arrow
-      sidebar.style.display = "none";
-      toggleArrow.style.display = "block";
-  }
-}
-
-function performSearch() {
-  let searchTerm = document.getElementById("search-input").value.toLowerCase();
-  console.log(searchTerm);
-  let cards = document.querySelectorAll(".row");
-
-  cards.forEach(function (card) {
-    let cardHeading = card
-      .querySelector(".card-heading")
-      .innerText.toLowerCase();
-
-    // Check if the search term is in the card heading or description
-    if (cardHeading.includes(searchTerm)) {
-      card.style.display = "block"; // Show the card
-    } else {
-      card.style.display = "none"; // Hide the card
-    }
-  });
-}
-
-async function SendEmail(e) {
-  e.preventDefault();
-  const Name = document.getElementById("name").value;
-  const Email = document.getElementById("email").value;
-  const Message = document.getElementById("message").value;
-
-  try {
-    const response = await fetch("http://localhost:5000/email/SendEmail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Name, Email, Message }),
-    });
-
-    if (response.ok) {
-      alert("Email sent successfully!");
-    } else {
-      alert("Error sending email");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred while sending the email.");
-  }
-}
-
-// faq
-document.querySelectorAll('.faq input[type="checkbox"]').forEach((checkbox) => {
-  checkbox.addEventListener('change', function () {
-    const answer = this.nextElementSibling.nextElementSibling; // FAQ answer div
-    if (this.checked) {
-      answer.style.maxHeight = answer.scrollHeight + 'px';
-    } else {
-      answer.style.maxHeight = '0px';
-    }
-  });
-});
-
-
-function testimonialJs() {
-  const swiper = new Swiper('.swiper', {
-    autoHeight: true,
-    loop: true,
-
-    // If we need pagination
-    pagination: {
-        el: '.swiper-pagination',
-    },
-
-    // Navigation arrows
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-
-
-});
-}
-testimonialJs();
-
-// Service Worker code for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      })
-      .catch((error) => {
-        console.log('ServiceWorker registration failed: ', error);
-      });
-  });
-}
-
-// Function to load form data from local storage
-function loadFormData() {
-  const data = JSON.parse(localStorage.getItem('formData')) || [];
-  if (data.length > 0) {
-      console.log('Saved Form Data:', data);
-  }
-}
-
-// Function to save form data to local storage
+// --- Contact Form Handling ---
 function saveFormData() {
-  const name = document.getElementById('name').value;
+  const nm = document.getElementById('name').value;
   const email = document.getElementById('email').value;
-  const message = document.getElementById('message').value;
-
-  const newEntry = { name, email, message };
-  const existingData = JSON.parse(localStorage.getItem('formData')) || [];
-  existingData.push(newEntry);
-  localStorage.setItem('formData', JSON.stringify(existingData));
+  const msg = document.getElementById('message').value;
+  const stored = JSON.parse(localStorage.getItem('contacts') || '[]');
+  stored.push({ nm, email, msg, time: new Date() });
+  localStorage.setItem('contacts', JSON.stringify(stored));
 }
 
-// Event listener for form submission
-document.getElementById('contactForm').addEventListener('submit', function (event) {
-  event.preventDefault();
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
   saveFormData();
-  clearForm();
-  alert('Message sent!');
+  alert('Thanks for reaching out! We’ll get back soon.');
+  e.target.reset();
 });
 
-// Function to clear input fields
-function clearForm() {
-  document.getElementById('name').value = '';
-  document.getElementById('email').value = '';
-  document.getElementById('message').value = '';
-}
-
-// Load the form data when the page is loaded
-window.onload = loadFormData;
-
-let cartItemCount = 0;
-
-const cartButtons = document.querySelectorAll('#cart-btn');
-cartButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        cartItemCount++; // Increment cart count
-        document.getElementById('cart-count').textContent = cartItemCount; // Update cart count display
-        alert('Item added to cart'); // Show alert
-    });
-});
-
-
-// Function to get the count from localStorage or initialize it
-function getVisitorCount() {
-
-  return localStorage.getItem('visitorCount') || 0;
-
-}
-
-
-// Function to increment and save the count
+// --- Visitor Counter ---
 function incrementVisitorCount() {
-
-  let count = parseInt(getVisitorCount()) + 1;
-  localStorage.setItem('visitorCount', count);
-
-  return count;
+  const count = parseInt(localStorage.getItem('visitCount') || '0') + 1;
+  localStorage.setItem('visitCount', count);
+  document.querySelector('.visitor-counter').textContent = count;
 }
+document.addEventListener('DOMContentLoaded', incrementVisitorCount);
 
-
-// Function to display the count
-function displayVisitorCount() {
-
-  const counterElement = document.querySelector('.website-counter');
-  const count = incrementVisitorCount();
-  counterElement.textContent = count;
-
-}
-
-// Call the display function when the page loads
-document.addEventListener('DOMContentLoaded', displayVisitorCount);
-
-//Name validation function on index page , Contact us section
-
-const nameInput = document.getElementById('name');
-
-nameInput.addEventListener('input', () => {
-    const name = nameInput.value.trim();
-    if (!/^[a-zA-Z ]+$/.test(name)) {
-        nameInput.setCustomValidity('Numbers and symbols are not allowed');
-    } else {
-        nameInput.setCustomValidity('');
-    }
+// --- FAQ Toggle ---
+document.querySelectorAll('.faq input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const ans = cb.nextElementSibling.nextElementSibling;
+    ans.style.maxHeight = cb.checked ? ans.scrollHeight + 'px' : '0px';
+  });
 });
+
+// --- Testimonials Slider (SwiperJS) ---
+function initTestimonials() {
+  new Swiper('.swiper', {
+    autoHeight: true,
+    loop: true,
+    pagination: { el: '.swiper-pagination' },
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+  });
+}
+document.addEventListener('DOMContentLoaded', initTestimonials);
+
+// --- Register Service Worker for PWA ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.error('SW registration failed:', err));
+  });
+}
+</script>
